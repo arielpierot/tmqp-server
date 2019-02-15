@@ -1,4 +1,4 @@
-package tmqp_server
+package main
 
 import (
 	"bufio"
@@ -12,7 +12,7 @@ var Version = "TMQP 0.1\n"
 
 func main() {
 
-	ln, err := net.Listen("tcp", ":7788")
+	ln, err := net.Listen("tcp", ":4000")
 	checkError(err)
 	fmt.Println("ONLINE! WAITING NEW CONNECTIONS...")
 	for {
@@ -49,11 +49,6 @@ func handleConn(conn net.Conn) {
 func messageParser(conn net.Conn) {
 
 	fmt.Println("NEW THREAD CREATED!")
-
-	for {
-		msg, _ := bufio.NewReader(conn).ReadString('\n')
-		fmt.Println(msg)
-	}
 
 }
 
