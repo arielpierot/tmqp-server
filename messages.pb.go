@@ -67,19 +67,119 @@ func (m *QueueDeclare) GetExclusive() bool {
 	return false
 }
 
+type Message struct {
+	Queue                string   `protobuf:"bytes,1,opt,name=Queue,proto3" json:"Queue,omitempty"`
+	Sender               string   `protobuf:"bytes,2,opt,name=Sender,proto3" json:"Sender,omitempty"`
+	Content              []byte   `protobuf:"bytes,3,opt,name=Content,proto3" json:"Content,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *Message) Reset()         { *m = Message{} }
+func (m *Message) String() string { return proto.CompactTextString(m) }
+func (*Message) ProtoMessage()    {}
+func (*Message) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4dc296cbfe5ffcd5, []int{1}
+}
+
+func (m *Message) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Message.Unmarshal(m, b)
+}
+func (m *Message) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Message.Marshal(b, m, deterministic)
+}
+func (m *Message) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Message.Merge(m, src)
+}
+func (m *Message) XXX_Size() int {
+	return xxx_messageInfo_Message.Size(m)
+}
+func (m *Message) XXX_DiscardUnknown() {
+	xxx_messageInfo_Message.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Message proto.InternalMessageInfo
+
+func (m *Message) GetQueue() string {
+	if m != nil {
+		return m.Queue
+	}
+	return ""
+}
+
+func (m *Message) GetSender() string {
+	if m != nil {
+		return m.Sender
+	}
+	return ""
+}
+
+func (m *Message) GetContent() []byte {
+	if m != nil {
+		return m.Content
+	}
+	return nil
+}
+
+type ConsumeQueue struct {
+	Queue                string   `protobuf:"bytes,1,opt,name=Queue,proto3" json:"Queue,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ConsumeQueue) Reset()         { *m = ConsumeQueue{} }
+func (m *ConsumeQueue) String() string { return proto.CompactTextString(m) }
+func (*ConsumeQueue) ProtoMessage()    {}
+func (*ConsumeQueue) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4dc296cbfe5ffcd5, []int{2}
+}
+
+func (m *ConsumeQueue) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ConsumeQueue.Unmarshal(m, b)
+}
+func (m *ConsumeQueue) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ConsumeQueue.Marshal(b, m, deterministic)
+}
+func (m *ConsumeQueue) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ConsumeQueue.Merge(m, src)
+}
+func (m *ConsumeQueue) XXX_Size() int {
+	return xxx_messageInfo_ConsumeQueue.Size(m)
+}
+func (m *ConsumeQueue) XXX_DiscardUnknown() {
+	xxx_messageInfo_ConsumeQueue.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ConsumeQueue proto.InternalMessageInfo
+
+func (m *ConsumeQueue) GetQueue() string {
+	if m != nil {
+		return m.Queue
+	}
+	return ""
+}
+
 func init() {
 	proto.RegisterType((*QueueDeclare)(nil), "main.QueueDeclare")
+	proto.RegisterType((*Message)(nil), "main.Message")
+	proto.RegisterType((*ConsumeQueue)(nil), "main.ConsumeQueue")
 }
 
 func init() { proto.RegisterFile("messages.proto", fileDescriptor_4dc296cbfe5ffcd5) }
 
 var fileDescriptor_4dc296cbfe5ffcd5 = []byte{
-	// 106 bytes of a gzipped FileDescriptorProto
+	// 174 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0xcb, 0x4d, 0x2d, 0x2e,
 	0x4e, 0x4c, 0x4f, 0x2d, 0xd6, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0xc9, 0x4d, 0xcc, 0xcc,
 	0x53, 0x72, 0xe0, 0xe2, 0x09, 0x2c, 0x4d, 0x2d, 0x4d, 0x75, 0x49, 0x4d, 0xce, 0x49, 0x2c, 0x4a,
 	0x15, 0x12, 0xe2, 0x62, 0xf1, 0x4b, 0xcc, 0x4d, 0x95, 0x60, 0x54, 0x60, 0xd4, 0xe0, 0x0c, 0x02,
 	0xb3, 0x85, 0x64, 0xb8, 0x38, 0x5d, 0x2b, 0x92, 0x73, 0x4a, 0x8b, 0x33, 0xcb, 0x52, 0x25, 0x98,
-	0x14, 0x18, 0x35, 0x38, 0x82, 0x10, 0x02, 0x49, 0x6c, 0x60, 0xe3, 0x8c, 0x01, 0x01, 0x00, 0x00,
-	0xff, 0xff, 0xe3, 0x9b, 0x3c, 0x99, 0x60, 0x00, 0x00, 0x00,
+	0x14, 0x18, 0x35, 0x38, 0x82, 0x10, 0x02, 0x4a, 0x81, 0x5c, 0xec, 0xbe, 0x10, 0x93, 0x85, 0x44,
+	0xb8, 0x58, 0xc1, 0x86, 0x41, 0x75, 0x43, 0x38, 0x42, 0x62, 0x5c, 0x6c, 0xc1, 0xa9, 0x79, 0x29,
+	0xa9, 0x45, 0x60, 0xbd, 0x9c, 0x41, 0x50, 0x9e, 0x90, 0x04, 0x17, 0xbb, 0x73, 0x7e, 0x5e, 0x49,
+	0x6a, 0x5e, 0x89, 0x04, 0xb3, 0x02, 0xa3, 0x06, 0x4f, 0x10, 0x8c, 0xab, 0xa4, 0xc2, 0xc5, 0xe3,
+	0x9c, 0x9f, 0x57, 0x5c, 0x9a, 0x9b, 0x0a, 0x31, 0x01, 0xab, 0xb9, 0x49, 0x6c, 0x60, 0x7f, 0x18,
+	0x03, 0x02, 0x00, 0x00, 0xff, 0xff, 0x3f, 0xcb, 0x32, 0x65, 0xd9, 0x00, 0x00, 0x00,
 }

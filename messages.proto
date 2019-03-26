@@ -6,3 +6,13 @@ message QueueDeclare {
   string Name = 1;
   bool Exclusive = 2;
 }
+
+message Message {
+  string Queue = 1;
+  string Sender = 2;
+  bytes Content = 3;
+}
+
+message ConsumeQueue {
+  string Queue = 1;
+}
