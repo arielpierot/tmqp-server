@@ -120,7 +120,7 @@ func readPackage(conn net.Conn) bool {
 					if err != nil {
 						fmt.Println("ERROR - UNMARSHAL: ", err)
 					} else {
-						fmt.Println("MESSAGE RECEIVED TO => ", message.GetQueue())
+						fmt.Println("MESSAGE RECEIVED FROM => ", message.GetSender())
 						name := message.GetQueue()
 						queue := queues[name]
 						queue <- publish_bytes
@@ -152,30 +152,41 @@ func listener(conn net.Conn, nameQueue string) {
 		queue := queues[nameQueue]
 		output := <-queue
 
-		size_package := uint32(len(output))
-		size_bytes := make([]byte, SIZE)
-		binary.LittleEndian.PutUint32(size_bytes, uint32(size_package))
-		err := binary.Write(conn, binary.LittleEndian, size_bytes)
+		var type_package int8
+		type_package = 2
 
-		message := &Message{}
-		// fmt.Println("OUT: ", output)
-		proto.Unmarshal(output, message)
-		// fmt.Println("QUEUE NAME: ", message.GetQueue())
-		// fmt.Println("CONTENT: ", string(message.GetContent()))
+		type_byte := make([]byte, TYPE)
+		type_byte[0] = (byte(type_package))
 
-		if err != nil {
+		err := binary.Write(conn, binary.LittleEndian, type_byte)
 
-			fmt.Println("ERROR - WRITE SIZE: ", err)
+		if err == nil {
 
-		} else {
+			size_package := uint32(len(output))
+			size_bytes := make([]byte, SIZE)
+			binary.LittleEndian.PutUint32(size_bytes, uint32(size_package))
+			err := binary.Write(conn, binary.LittleEndian, size_bytes)
 
-			_, err := conn.Write(output)
+			message := &Message{}
+			// fmt.Println("OUT: ", output)
+			proto.Unmarshal(output, message)
+			// fmt.Println("QUEUE NAME: ", message.GetQueue())
+			// fmt.Println("CONTENT: ", string(message.GetContent()))
 
-			if err == nil {
-				fmt.Println("LISTENER SENDING MESSAGES FROM", nameQueue, "TO CLIENTS")
+			if err != nil {
+
+				fmt.Println("ERROR - WRITE SIZE: ", err)
+
 			} else {
-				fmt.Println("ERROR - TYPEx: ", err)
-				os.Exit(1)
+
+				_, err := conn.Write(output)
+
+				if err == nil {
+					fmt.Println("LISTENER SENDING MESSAGES FROM", nameQueue, "TO CLIENTS")
+				} else {
+					fmt.Println("ERROR - TYPEx: ", err)
+					os.Exit(1)
+				}
 			}
 		}
 	}
