@@ -77,9 +77,6 @@ func readPackage(conn net.Conn) bool {
 	if err == nil {
 		type_package := int(type_byte[0])
 
-		// fmt.Println("RECEPTING NEW PACKET...")
-		// fmt.Println("TYPE: ", type_package)
-
 		size_bytes := make([]byte, SIZE)
 		_, err := conn.Read(size_bytes[0:SIZE])
 
@@ -91,8 +88,6 @@ func readPackage(conn net.Conn) bool {
 			size_package := binary.LittleEndian.Uint32(size_bytes[0:SIZE])
 
 			content_bytes := make([]byte, size_package)
-
-			// fmt.Println("SIZE: ", size_package)
 
 			_, err := conn.Read(content_bytes[0:size_package])
 
@@ -168,10 +163,7 @@ func listener(conn net.Conn, nameQueue string) {
 			err := binary.Write(conn, binary.LittleEndian, size_bytes)
 
 			message := &Message{}
-			// fmt.Println("OUT: ", output)
 			proto.Unmarshal(output, message)
-			// fmt.Println("QUEUE NAME: ", message.GetQueue())
-			// fmt.Println("CONTENT: ", string(message.GetContent()))
 
 			if err != nil {
 
